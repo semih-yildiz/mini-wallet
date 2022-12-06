@@ -1,0 +1,39 @@
+{
+  "name": "mini-wallet",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "Semih Yildiz",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
+    "dotenv": "^16.0.1",
+    "express": "^4.17.1",
+    "mocha": "^10.0.0",
+    "mongodb": "^4.7.0",
+    "mongoose": "^6.3.8",
+    "mongoose-unique-validator": "^3.1.0",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.26.0",
+    "swagger-ui-express": "^4.4.0"
+  },
+  "devDependencies": {
+    "jest": "^27.4.5"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "testRegex": "(/test/.*|(\\.|/)(test))\\.(js)x?$"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "description": ""
+}
