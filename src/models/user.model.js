@@ -66,14 +66,10 @@ module.exports = (sequelize, Sequelize) => {
         },
         updated_at: {
             type: Sequelize.DATE,
-            defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
+            defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
             allowNull: false
         },
         deleted_at: {
-            type: Sequelize.DATE,
-            allowNull: true
-        },
-        password_changed_at: {
             type: Sequelize.DATE,
             allowNull: true
         }
@@ -81,8 +77,8 @@ module.exports = (sequelize, Sequelize) => {
         freezeTableName: true,
         hooks: {
             afterValidate: function (user) {
-                if (user.user_password != null && user.user_password != '') {
-                    user.user_password = bcrypt.hashSync(user.user_password, 8);
+                if (user.password != null && user.password != '') {
+                    user.password = bcrypt.hashSync(user.password, 8);
                 }
             }
         }

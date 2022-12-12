@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const apiRoutes = require('./src/routes/routes');
-const { authentication } = require('./src/middlewares/auth.middleware');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./src/swagger.json');
 const config = require('./src/config/config').getConfig(),
@@ -17,7 +16,6 @@ app.use(
     })
 );
 
-app.use(authentication);
 app.use(apiRoutes);
 
 /* Error handler middleware */

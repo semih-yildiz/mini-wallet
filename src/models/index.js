@@ -19,6 +19,7 @@ db.userRole = require("./user_roles.model.js")(sequelize, Sequelize);
 db.userApiAuth = require('./user_api_auth.model')(sequelize, Sequelize);
 db.currency = require("./currency.model.js")(sequelize, Sequelize);
 db.wallet = require("./wallet.model.js")(sequelize, Sequelize);
+db.walletTransaction = require("./wallet_transaction.model.js")(sequelize, Sequelize);
 
 db.role.belongsToMany(db.user, {
     through: "user_roles",
@@ -49,6 +50,13 @@ db.wallet.belongsTo(db.user, {
 });
 db.user.hasMany(db.wallet, {
     foreignKey: "created_by",
+    targetKey: "id"
+});
+db.walletTransaction.belongsTo(db.wallet, {
+    foreignKey: 'wallet_id'
+});
+db.wallet.hasMany(db.walletTransaction, {
+    foreignKey: "wallet_id",
     targetKey: "id"
 });
 
