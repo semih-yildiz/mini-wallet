@@ -2,7 +2,6 @@ const walletService = require('./../services/wallet.service')
 const repo = require('./../repository/base.repository');
 const { transactionType, transactionStatus } = require('./../enum');
 
-
 /**
  * @Description this function create wallet
  * @Param       req - http request

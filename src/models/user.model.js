@@ -81,7 +81,10 @@ module.exports = (sequelize, Sequelize) => {
                     user.password = bcrypt.hashSync(user.password, 8);
                 }
             }
-        }
+        },
+        updatedAt: false,
+        deletedAt: false,
+        createdAt: false
     });
     User.beforeCreate(user => user.id = uuidv4());
 

@@ -39,7 +39,10 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: true
         }
     }, {
-        freezeTableName: true
+        freezeTableName: true,
+        updatedAt: false,
+        deletedAt: false,
+        createdAt: false
     });
     Wallet.beforeCreate(wallets => wallets.id = uuidv4());
 

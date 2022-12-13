@@ -1,0 +1,866 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Mini Wallet Assignment is the project API.",
+        "version": "1.0.0",
+        "title": " Mini Wallet Assignment",
+        "contact": {
+            "email": "semihyildiz9553@gmail.com"
+        }
+    },
+    "host": "localhost:3636",
+    "basePath": "/api/v1",
+    "tags": [
+        {
+            "name": "auth",
+            "description": "Everything about the auths"
+        },
+        {
+            "name": "user",
+            "description": "Everything about the users"
+        },
+        {
+            "name": "wallet",
+            "description": "Everything about the wallets."
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "securityDefinitions": {
+        "x-token": {
+            "type": "apiKey",
+            "name": "x-token",
+            "in": "header",
+            "description": "Enter the token e.g. \"abcde12345\" (Please login to generate x-token)."
+        },
+        "api-key": {
+            "type": "apiKey",
+            "name": "api_key",
+            "in": "header",
+            "description": "Enter the api token e.g. \"abcde12345\" (You can generate api key from user/api-key-generate endpoint)."
+        }
+    },
+    "paths": {
+        "/user": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "This is for adding new user.",
+                "description": "",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "user",
+                        "description": "The user to be added..",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "first_name": {
+                                    "type": "string",
+                                    "example": "Semih"
+                                },
+                                "second_name": {
+                                    "type": "string",
+                                    "example": ""
+                                },
+                                "last_name": {
+                                    "type": "string",
+                                    "example": "Yıldız"
+                                },
+                                "password": {
+                                    "type": "string",
+                                    "example": "Password-123"
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "example": "semih@gmail.com"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "The user has been successfully added",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "USER-CREATION-SUCCESSFULLY"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Adding product failed",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "USER-CREATION-FAILED"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/api-key-generate": {
+            "post": {
+                "security": [
+                    {
+                        "x-token": []
+                    }
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "This is for generate api key.",
+                "description": "",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "201": {
+                        "description": "The api key has been successfully generated",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "SUCCESSFULLY-CREATED"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Generating api key failed",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "UNEXPECTED-ERROR"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/api-key": {
+            "get": {
+                "security": [
+                    {
+                        "x-token": []
+                    }
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Return api key.",
+                "description": "It returns the last generated api-key.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Get api key successfully",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "GET-API-KEY-SUCCESSFULL"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Api key not found",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "NOT-FOUND"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Get api key failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Api500Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Login with email and password",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "UserLogin",
+                        "schema": {
+                            "$ref": "#/definitions/UserLogin"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "boolean"
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "description": "LOGIN-SUCCESSFULLY",
+                                    "example": "LOGIN-SUCCESSFULLY"
+                                },
+                                "payload": {
+                                    "example": {
+                                        "id": "8c05efe1-29c4-434e-8a34-35ad6c8d94ac",
+                                        "first_name": "IT HERO SWAGGER",
+                                        "second_name": null,
+                                        "last_name": "Example",
+                                        "domain": null,
+                                        "client_registered": false,
+                                        "user_name": "swagger@ithero.com.tr",
+                                        "user_email": "swagger@ithero.com.tr",
+                                        "status": true,
+                                        "email_verified": true,
+                                        "created_at": "2021-01-06T13:43:23.000Z",
+                                        "updated_at": "2021-01-08T09:11:52.000Z",
+                                        "token": "xxxxxx",
+                                        "refreshToken": "xxxxxx"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "description": "INVALID-CREDENTIAL",
+                                    "example": "INVALID-CREDENTIAL"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/refresh-token": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Generating new authToken From refreshToken",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "RefreshToken",
+                        "schema": {
+                            "$ref": "#/definitions/Refresh-token"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "boolean"
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "description": "TOKEN-REFRESHED-SUCCESSFULLY",
+                                    "example": "TOKEN-REFRESHED-SUCCESSFULLY"
+                                },
+                                "payload": {
+                                    "example": {
+                                        "id": "8c05efe1-29c4-434e-8a34-35ad6c8d94ac",
+                                        "first_name": "IT HERO SWAGGER",
+                                        "second_name": null,
+                                        "last_name": "Example",
+                                        "domain": null,
+                                        "client_registered": false,
+                                        "user_name": "swagger@ithero.com.tr",
+                                        "user_email": "swagger@ithero.com.tr",
+                                        "status": true,
+                                        "email_verified": true,
+                                        "created_at": "2021-01-06T13:43:23.000Z",
+                                        "updated_at": "2021-01-08T09:11:52.000Z",
+                                        "token": "xxxxxx",
+                                        "refreshToken": "xxxxxx"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "description": "INVALID-CREDENTIAL",
+                                    "example": "INVALID-CREDENTIAL"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Authorization information is missing or invalid.",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "description": "REFRESH-TOKEN-IS-NOT-PROVIDED",
+                                    "example": "REFRESH-TOKEN-IS-NOT-PROVIDED"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/wallet": {
+            "post": {
+                "security": [
+                    {
+                        "x-token": []
+                    }
+                ],
+                "tags": [
+                    "wallet"
+                ],
+                "summary": "This is for adding wallet.",
+                "description": "",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "user",
+                        "description": "The user to be added..",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "example": "Semih Wallet"
+                                },
+                                "currency_id": {
+                                    "type": "string",
+                                    "example": "7b23f07e-1c06-47f0-90e3-2796d0750dcd"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "The wallet has been successfully created",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "SUCCESSFULLY-CREATED"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Adding wallet failed",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "USER-CREATION-FAILED"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/wallet/balance": {
+            "get": {
+                "security": [
+                    {
+                        "x-token": []
+                    }
+                ],
+                "tags": [
+                    "wallet"
+                ],
+                "summary": "This endpoint get wallet balance by wallet id",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "id",
+                        "type": "string",
+                        "description": "wallet id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get wallet balance successfully",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "GET-BALANCE-SUCCESSFULLY"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Api key not found",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "NOT-FOUND"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Get wallet balance failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Api500Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/wallet/{id}/deposit": {
+            "put": {
+                "security": [
+                    {
+                        "x-token": []
+                    }
+                ],
+                "tags": [
+                    "wallet"
+                ],
+                "summary": "This endpoint deposit money in wallet.",
+                "description": "Deposits are made based on wallet ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Wallet id to deposit",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "amount",
+                        "schema": {
+                            "example": {
+                                "amount": "1"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deposit successfully",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "DEPOSIT-SUCCESSFULLY"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "example": {
+                                        "balance": 100
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Wallet not found",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "WALLET-NOT-FOUND"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Get deposit failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Api500Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/wallet/{id}/withdraw": {
+            "put": {
+                "security": [
+                    {
+                        "x-token": []
+                    }
+                ],
+                "tags": [
+                    "wallet"
+                ],
+                "summary": "This endpoint withdraw money in wallet.",
+                "description": "Withdraw are made based on wallet ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Wallet id to withdraw",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "amount",
+                        "schema": {
+                            "example": {
+                                "amount": "1"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Withdraw successfully",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "WITHDRAW-SUCCESSFULLY"
+                                },
+                                "status": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "example": {
+                                        "balance": 100
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Wallet not found",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "WALLET-NOT-FOUND"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Get deposit failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Api500Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/wallet/statement": {
+            "get": {
+                "security": [
+                    {
+                        "x-token": []
+                    }
+                ],
+                "tags": [
+                    "wallet"
+                ],
+                "summary": "This endpoint get wallet statement.",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "id",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get wallet statement successfully",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "GET-WALLET-STATEMENT-SUCCESSFULLY"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Wallet statement not found",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "NOT-FOUND"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Get wallet statement failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Api500Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/wallet/payment": {
+            "post": {
+                "security": [
+                    {
+                        "api-key": []
+                    }
+                ],
+                "tags": [
+                    "wallet"
+                ],
+                "summary": "This endpoint withdraw money in wallet.",
+                "description": "Withdraw are made based on wallet ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "balance",
+                        "schema": {
+                            "example": {
+                                "wallet_id": "xxxx",
+                                "amount": "1"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Withdraw successfully",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "WITHDRAW-SUCCESSFULLY"
+                                },
+                                "status": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "example": {
+                                        "balance": 100
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Wallet not found",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "WALLET-NOT-FOUND"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Get deposit failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Api500Response"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "UserLogin": {
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "Refresh-token": {
+            "properties": {
+                "refreshToken": {
+                    "type": "string"
+                }
+            }
+        },
+        "Api500Response": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "boolean"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "Api200Response": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "boolean"
+                },
+                "message": {},
+                "data": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "externalDocs": {
+        "description": "Find out more about Swagger",
+        "url": "http://swagger.io"
+    }
+}

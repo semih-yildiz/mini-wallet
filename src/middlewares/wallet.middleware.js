@@ -15,7 +15,6 @@ exports.checkCreateWallet = async (req, res, next) => {
     let validMessage = [];
 
     validMessage = checkParameter(newWallet, requiredParams)
-
     if (validMessage.length > 0) {
         res.status(400).json({
             status: false,

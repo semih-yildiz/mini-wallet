@@ -18,8 +18,11 @@ exports.checkCreateUser = async (req, res, next) => {
     let validMessage = [];
 
     validMessage = checkParameter(req.body, requiredParams)
-
-    if (validMessage.length > 0) {
+    const found = newUser.password.match(strongRegex);
+    if (!found) {
+        validMessage.push("INVALID-PASSWORD-FORMAT")
+    }
+    if (validMessage.length > 0 || !found) {
         res.status(400).json({
             status: false,
             message: validMessage
@@ -50,6 +53,7 @@ exports.checkCreateUser = async (req, res, next) => {
  */
 exports.checkApiKey = async (req, res, next) => {
     const { api_key } = req.headers;
+
     if (!api_key) {
         return res.status(400).json({
             status: false,

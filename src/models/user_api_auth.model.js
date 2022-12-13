@@ -35,7 +35,10 @@ module.exports = (sequelize, Sequelize) => {
         }
 
     }, {
-        freezeTableName: true
+        freezeTableName: true,
+        updatedAt: false,
+        deletedAt: false,
+        createdAt: false
     });
     UserApiAuth.beforeCreate(uaa => uaa.id = uuidv4());
 

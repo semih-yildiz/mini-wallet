@@ -6,7 +6,6 @@ const authRouter = Router();
 
 // Handle user login route
 authRouter.post("/login", checkSigninAuth, authController.login);
-
 // Handle the request of new access token by using refresh token
 authRouter.post("/refresh-token", checkRefreshToken, authController.refreshToken);
 

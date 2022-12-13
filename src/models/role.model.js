@@ -35,9 +35,11 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: true
         }
     }, {
-        freezeTableName: true
+        freezeTableName: true,
+        updatedAt: false,
+        deletedAt: false,
+        createdAt: false
     });
     Role.beforeCreate(role => role.id = uuidv4());
-
     return Role;
 };

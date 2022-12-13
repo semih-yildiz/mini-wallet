@@ -19,7 +19,6 @@ exports.checkSigninAuth = async (req, res, next) => {
     })
 
     if (!userRow || !password || !(bcrypt.compareSync(password, userRow.dataValues.password))) {
-
         return res.status(400).json({
             status: false,
             message: "INVALID-CREDENTIAL",
@@ -79,25 +78,23 @@ exports.jwtProtect = (async (req, res, next) => {
             });
 
         }
-
+        //Decoded authToken
         const decoded = await jwtVerifyToken(authToken);
-
         if (decoded.hasOwnProperty('expiredAt')) {
             return res.status(401).json({
                 status: false,
                 message: "TOKEN-HAS-EXPIRED",
             });
         }
-
+        //Check decoded
         if (!decoded.status) {
             return res.status(401).json({
                 status: false,
                 message: "ACCOUNT-HAS-BEEN-INACTIVATED",
             });
         }
-
+        //Get user by decoded.id
         const freshUser = await db.user.findByPk(decoded.id);
-
         if (!freshUser) {
             return res.status(401).json({
                 status: false,
