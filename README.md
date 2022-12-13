@@ -1,4 +1,4 @@
-# Mini Wallet Assigment
+# Mini Wallet Case
 
 - First, the existing user is logged in or a new user is created.
 - Authorizes the application with the user's e-mail and password.
