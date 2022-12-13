@@ -15,10 +15,6 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
             allowNull: false
         },
-        uuid: {
-            type: Sequelize.STRING,
-            allowNull: false
-        },
         created_at: {
             type: Sequelize.DATE,
             allowNull: false,
@@ -26,7 +22,7 @@ module.exports = (sequelize, Sequelize) => {
         },
         updated_at: {
             type: Sequelize.DATE,
-            defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
+            defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
             allowNull: false
         },
         deleted_at: {
