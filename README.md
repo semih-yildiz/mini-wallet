@@ -7,3 +7,6 @@
 - The database resides on the digitalocean cloud side.
 
 The API document can be accessed via http://localhost:3636/api-docs.
+
+## Database ER Diagram
+<img width="660" alt="Ekran Resmi 2022-12-14 01 11 10" src="https://user-images.githubusercontent.com/13348861/207458402-8644267f-179c-4af4-9586-721f488025c0.png">
