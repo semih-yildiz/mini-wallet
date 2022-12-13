@@ -2,7 +2,7 @@ const userService = require('./../services/user.service')
 const repo = require('./../repository/base.repository')
 
 /**
- * @Description this function get Orders
+ * @Description this function create user
  * @Param       req - http request
  * @Param       res - http response
  * @Returns     json
@@ -10,7 +10,9 @@ const repo = require('./../repository/base.repository')
  */
 exports.createUser = async (req, res) => {
     const newUser = req.body;
-    const response = await userService.createUser(newUser);
+
+    const response = await userService.createCustomerUser(newUser);
+    response.message = response.code == 201 ? "USER-CREATION-SUCCESSFULLY" : "USER-CREATION-FAILED"
     res.status(response.code).json(response);
 }
 
@@ -24,9 +26,11 @@ exports.createUser = async (req, res) => {
  */
 exports.getApiKey = async function (req, res) {
     const user_id = req.user.id;
+
     let response = await repo.getByFilter(repo.models.userApiAuth, { user_id });
     if (response.code === 200) {
         response["data"] = { apiKey: response.data.key }
+        response["message"] = "GET-API-KEY-SUCCESSFULL"
     }
     res.status(response.code).json(response);
 }

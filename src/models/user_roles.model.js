@@ -17,7 +17,7 @@ module.exports = (sequelize, Sequelize) => {
         },
         updated_at: {
             type: Sequelize.DATE,
-            defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
+            defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
             allowNull: false
         },
         deleted_at: {
@@ -25,8 +25,10 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: true
         }
     }, {
-        freezeTableName: true
+        freezeTableName: true,
+        updatedAt: false,
+        deletedAt: false,
+        createdAt: false
     });
-
     return UserRole;
 };

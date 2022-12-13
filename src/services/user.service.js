@@ -1,33 +1,30 @@
 //Import models
-const db = require("../models");
+const repo = require('./../repository/base.repository')
 const { randomBytes } = require('crypto');
 
-exports.createUser = async (data) => {
-    try {
-        const result = await db.user.create(data);
-        if (result) {
-            return {
-                status: true,
-                message: 'USER-CREATED-SUCCESSFUL',
-                code: 201,
-                id: result.id
-            }
-        } else {
-            return {
-                status: false,
-                message: 'UNEXPECTED-ERROR',
-                code: 500
-            }
-        }
-    } catch (err) {
-        return {
-            status: false,
-            message: "INTERNAL-SERVER-ERROR",
-            code: 500
-        }
+/**
+ * @Description this function create user function
+ * @Param       data
+ * @Returns     json
+ * @Author      Semih Yıldız
+ */
+exports.createCustomerUser = async (data) => {
+    const userData = await repo.create(repo.models.user, data);
+    if (userData.code == 201) {
+        return await repo.create(repo.models.userRole, {
+            user_id: userData.id,
+            role_id: process.env.CUSTOMER_ROLE_ID
+        });
+    } else {
+        return userData
     }
 }
 
+/**
+ * @Description this function generate api key
+ * @Returns     string
+ * @Author      Semih Yıldız
+ */
 exports.generateApiKey = async () => {
     const buffer = randomBytes(32);
     return buffer.toString('base64');

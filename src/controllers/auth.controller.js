@@ -43,13 +43,13 @@ exports.login = async (req, res) => {
  */
 exports.refreshToken = (req, res) => {
     const { refreshToken } = req.body;
+
     if (!refreshToken) {
         return res.status(401).json({
             status: false,
             message: "REFRESH-TOKEN-IS-NOT-PROVIDED"
         });
     }
-
     //Verify token check
     jwt.verify(refreshToken, process.env.JWT_REFRESH_KEY, (err, user) => {
         if (!user) {
